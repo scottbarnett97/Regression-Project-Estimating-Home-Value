@@ -28,17 +28,14 @@ def get_zillow_data():
     '''
     url = env.get_db_url('zillow')
     filename = 'zillow.csv'
-    query = '''select 
-                taxvaluedollarcnt
-                , bedroomcnt
-                , bathroomcnt
-                , calculatedfinishedsquarefeet
-                , fips
-            from properties_2017
-                join propertylandusetype
-                    using (propertylandusetypeid)
-            where propertylandusetypeid in (261, 279)
-            '''
+    query = '''
+        select taxvaluedollarcnt, bedroomcnt, bathroomcnt, calculatedfinishedsquarefeet, fips,lotsizesquarefeet, transactiondate
+        FROM properties_2017
+        JOIN propertylandusetype USING (propertylandusetypeid)
+        JOIN predictions_2017 USING (parcelid)
+        WHERE propertylandusetypeid IN (261 , 279)
+            ;
+    '''        
     df = check_file_exists(filename, query, url)
     return df 
 
@@ -46,21 +43,3 @@ def get_zillow_data():
     
     
     
-""" This Function pulls in ght Telco_churn dataframe"""
-
-
-
-
-def get_telco_data():
-    filename = "telco.csv"
-    if os.path.isfile(filename):
-        return pd.read_csv(filename)
-    else:
-        # read the SQL query into a dataframe
-        df = pd.read_sql('select * from customers join contract_types using (contract_type_id) join internet_service_types using (internet_service_type_id) join payment_types using (payment_type_id)', env.get_db_url('telco_churn'))
-
-        # Write that dataframe to disk for later. Called "caching" the data for later.
-        df.to_csv(filename)
-
-        # Return the dataframe to the calling code
-        return df 
