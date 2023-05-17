@@ -13,71 +13,47 @@
 
 ## Initial hypotheses and/or questions you have of the data, ideas
 There should be some combination of features that can be used to build a predictive model for property values
-* 1. Do any of 
-* 2. Do 
-* 3. Do 
-* 4. Do 
+* 1. Dose the county of the poperty provide relevant predicting tax value?
+* 2. Does the number of bedrooms provide predictive value for churn? 
+* 3. Does the number of bathrooms provide relevant predictive value tax value?
+* 4. Does the size of the lot provide predictive value for tax value? 
 *****************************************
 ** Project Plan 
 *** Acquire data from Codeup DB Server
 *** Prepare data
     **** Create Engineered columns from existing data
-        ***** contract_types
-        ***** customer_churn
-        ***** customer_contracts
-        ***** customer_details
-        ***** customer_payments
-        ***** customers
-        ***** customer_signups
-        ***** customer_subscriptions
-        ***** internet_service_types
-        ***** payment_types
-*** Explore data in search of drivers of churn
-    **** Answer the folowwing initial questions
-        ***** 1. Do any of the demographic features provide relevant preditive value for churn?
-        ***** 2. Do catagorical customer account features provide relevant predictive value for churn?
-        ***** 3. Do numerical customer account features provide relevant predictive value for churn?
-        ***** 4. Do any of the service features provide relevant predictive value for churn? 
-*** Develop a model to predict if a customer will churn
+        ***** county_LA
+        ***** county_Orange
+        ***** county_Ventura
+        ***** evaluate database to tidy up 
+        ***** address any outliers
+*** Explore data in search of drivers of property tax value
+    **** Answer the following initial questions
+        ***** 1. Does the county of the poperty and area of the home provide relevant predicting tax value?
+        ***** 2. Does the number of bedrooms provide predictive value for tax value?
+        ***** 3. Does the number of bathrooms provide relevant predictive value tax value?
+        ***** 4. Does the size of the lot provide predictive value for tax value? 
+*** Develop a model to predict tax value of properties
 *** Draw conclusions
 
 ## Data Dictionary
+| Feature | Datatype | Key | Definition |
+|---|---|---|---|
+| county | object | Unique | labels each county from fips |
+| taxvalue | int64 | in USD | tax assessed value of property |
+| bedrooms | int64 | # rooms | number of bedrooms in property |
+| bathrooms | int64 | # rooms | number of bathrooms |
+| area | int64 | in Sqft | area of property structure |
+| lot | int64 | in Sqft | area of property lot |
+| county_LA | unit8 | 1 = Yes  <br>0 = No | is county LA |
+| county_Orange | unit8 | 1 = Yes  <br>0 = No | is county Orange |
+| county_Ventura | unit8 | 1 = Yes  <br>0 = No | is county Ventura |
 
-|Target|Datatype|Key|Definition
-|:-------|:-------|:-------|:----------|
-|churn|  int64| 1 = Yes <br /> 0 = No| has customer churned|
-
-|Feature|Datatype|Key|Definition|
-|:------- |:-------|:-------|:----------|
-|customer_id                        | object | Unique   | identifier for each individual customer's account|
-|senior_citizen                     | int64  | 1 = Yes  <br />0 = No    | is senior citizen|
-|tenure                             | int64  | Months   | how long a customer has been utilizing telco services|
-|monthly_charges                    | float64|  in USD  | how much a customer pays per month|
-|total_charges                      | float64|  in USD  | how much a customer has paid since account opening|
-|gender_Male                        | int64  | 1 = Male <br />0 = Female| gender|
-|partner_Yes                        | int64  | 1 = Yes  <br />0 = No| has a significant other|
-|has_dependents                     | int64  | 1 = Yes  <br />0 = No| has children|
-|has_phone_service                  | int64  | 1 = Yes  <br />0 = No| has phone service with telco|
-|multiple_lines_Yes                 | uint8  | 1 = Yes  <br />0 = No| has multiple phone lines|
-|online_security_Yes                | uint8  | 1 = Yes  <br />0 = No| utilizes online security services|
-|online_backup_Yes                  | uint8  | 1 = Yes  <br />0 = No| has online backup services via telco|
-|device_protection_Yes              | uint8  | 1 = Yes  <br />0 = No| has device protection via telco|
-|tech_support_Yes                   | uint8  | 1 = Yes  <br />0 = No| has technical support services with telco|
-|streaming_tv_Yes                   | uint8  | 1 = Yes  <br />0 = No| has tv streaming capabilities with their account|
-|streaming_movies_Yes               | uint8  | 1 = Yes  <br />0 = No| has movie streaming capabilities with their account|
-|contract_type_One year             | uint8  | 1 = Yes  <br />0 = No| must renew their contract every year|
-|contract_type_Two year             | uint8  | 1 = Yes  <br />0 = No| must renew their contract every two years|
-|internet_service_type_Fiber optic  | uint8  | 1 = Yes  <br />0 = No| has fiber optic internet, 0: doesn't have fiber optic internet|
-|internet_service_type_None         | uint8  | 1 = Yes  <br />0 = No| doesn't have internet service via telco|
-|payment_type_Credit car (automatic)| uint8  | 1 = Yes  <br />0 = No| makes payments via automatic credit card transfer|
-|payment_type_Electronic check      | uint8  | 1 = Yes  <br />0 = No| makes payments via electronic checks|
-|payment_type_Mailed check          | uint8  | 1 = Yes  <br />0 = No| makes payments via mailed in checks|
-
-##Steps to Reproduce
-* 1.Clone this repo.
-* 2.Acquire the data from Codeup DB Server
-* 3.Put the data in the file containing the cloned repo.
-* 4.Run notebook.
+## Steps to Reproduce
+* 1. Clone this repo.
+* 2. Acquire the data from Codeup DB Server
+* 3. Put the data in the file containing the cloned repo.
+* 4. Run notebook.
 
 ## Takeaways and Conclusions
 * Of the features examined these provided statiscally relevant predictive value for predicting customer churn
