@@ -56,23 +56,15 @@ There should be some combination of features that can be used to build a predict
 * 4. Run notebook.
 
 ## Takeaways and Conclusions
-* Of the features examined these provided statiscally relevant predictive value for predicting customer churn
-** Account features
-*** tenure
-*** monthly_charges
-** Demographic features
-*** partner_Yes
-*** dependents_Yes
-** Other features
-*** tech_support_Yes
-*** internet_service_type_fiber_optic
-*** payment_type_electronic_check
-*Three major drivers
-** Customers with Fiber Optic Internet Service churn faster than others
-** Customers without Tech support turn at a higher rate than those with it
-** Legacy customers are less likly to churn than newer customers
+* Of the features examined all proved relevant to predicting tax values
+* * RMSE proved the best metric for evaluating various models created 
+* By combining the features into a series of models I found the Polynomial Regression model was best
+* On the test set the model returned a RMSE of 307698.389898 
+    * failing to meet the baseline 383891.952694   
+* This model should not be used in production
 
 # Recomendations
-* Implement the model provided and work with the marketing to form retention programs to reduce the churn rate for the company.
-* These programs can be offered to seperate test markets derived from this model and later be evaluated to determine which retention program works best
-* Investigate reason for fiber optic customers without tech support churning faster than others
+* Continue developing the model
+* Property values are determined by a large variety of factors so more features may improve the model
+# Next Steps
+* If provided more time to work on the project I would want to explore more features to develop a better model

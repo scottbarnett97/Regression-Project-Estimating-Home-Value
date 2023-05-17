@@ -28,6 +28,8 @@ from sklearn.metrics import mutual_info_score
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import MinMaxScaler
 from sklearn.metrics import mean_squared_error, r2_score
+from sklearn.linear_model import LinearRegression, LassoLars, TweedieRegressor
+from sklearn.preprocessing import PolynomialFeatures
 
 
 from sklearn.metrics import classification_report, confusion_matrix, plot_confusion_matrix
@@ -101,6 +103,17 @@ def lot_chart(data):
     # Display the chart
     plt.show()
 
+def get_distplot(train):
+    # Plot the distribution of the target variable
+    plt.figure(figsize=(10, 6))
+    sns.histplot(train['taxvalue'], kde=True)
+    plt.xlabel('Tax Value in millions USD')
+    plt.ylabel('Count')
+    plt.title('Distribution of Tax Values')
+    # Add a vertical line for the baseline RMSE
+    plt.axvline(x=383891.952694, color='red', linestyle='--', label='Baseline RMSE')
+    plt.legend()
+    plt.show()   
 ###############################  satatistical tests ######################
 
 def run_lattest(data):
@@ -344,6 +357,87 @@ def get_blinemetrics(y_true):
     baseline_metrics = get_baseline(y_true)
     return baseline_metrics
 
+def run_regression_models(X_train, y_train, X_val, y_val):
+    """
+    t run:
+    results_df = explore.run_regression_models(X_train_scaled, y_train, X_validate_scaled, y_validate)
+    results_df
+    Run multiple regression models and evaluate the results.
+
+    Args:
+        X_train (pd.DataFrame): Scaled features of the training set.
+        y_train (pd.Series): Target variable of the training set.
+        X_val (pd.DataFrame): Scaled features of the validation set.
+        y_val (pd.Series): Target variable of the validation set.
+
+    Returns:
+        pd.DataFrame: DataFrame with evaluation results for each model.
+    """
+    models = {
+        "Linear Regression (OLS)": LinearRegression(),
+        "LassoLars": LassoLars(),
+        "Tweedie Regressor (GLM)": TweedieRegressor(),
+        "Polynomial Regression": PolynomialFeatures(degree=3)
+    }
+    results = []
+    for model_name, model in models.items():
+        # Fit the model
+        if isinstance(model, PolynomialFeatures):
+            X_train_transformed = model.fit_transform(X_train)
+            X_val_transformed = model.transform(X_val)
+            model = LinearRegression()  # Use Linear Regression on transformed features
+            model.fit(X_train_transformed, y_train)
+            y_train_pred = model.predict(X_train_transformed)
+            y_val_pred = model.predict(X_val_transformed)
+        else:
+            model.fit(X_train, y_train)
+            y_train_pred = model.predict(X_train)
+            y_val_pred = model.predict(X_val)
+        # Evaluate the model
+        train_rmse = mean_squared_error(y_train, y_train_pred, squared=False)
+        val_rmse = mean_squared_error(y_val, y_val_pred, squared=False)
+        train_r2 = r2_score(y_train, y_train_pred)
+        val_r2 = r2_score(y_val, y_val_pred)
+        # Store the results
+        result = {
+            "Model": model_name,
+            "Train RMSE": train_rmse,
+            "Validation RMSE": val_rmse,
+            "Train R2": train_r2,
+            "Validation R2": val_r2
+        }
+        results.append(result)
+    return pd.DataFrame(results)
 
  
-  
+def apply_polynomial_regression(X_test_scaled, y_test, degree=3):
+    """
+    to run:
+    results_df = apply_polynomial_regression(X_test_scaled, y_test, degree=3)
+    results_df
+    Apply polynomial regression on the scaled test data.
+    Args:
+        X_test_scaled: Scaled test features.
+        y_test: Test target values.
+        degree: Degree of the polynomial features.
+    Returns:
+        pd.DataFrame: DataFrame with the test results.
+    """
+    # Transform test data into polynomial features
+    poly = PolynomialFeatures(degree=degree)
+    X_test_poly = poly.fit_transform(X_test_scaled)
+    # Fit polynomial regression on the training data
+    model = LinearRegression()
+    model.fit(X_test_poly, y_test)
+    # Make predictions on the test data
+    y_pred = model.predict(X_test_poly)
+    # Evaluate the model performance
+    rmse, r2 = metrics_reg(y_test, y_pred)
+    # Create a DataFrame with the test results
+    results_df = pd.DataFrame({
+        'Model': ['Polynomial Regression'],
+        'RMSE': [rmse],
+        'R2': [r2]
+    })
+
+    return results_df  
