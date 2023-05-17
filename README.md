@@ -6,17 +6,16 @@
 
 ### Goals¶
 * Construct an ML Regression model that predicts propery tax assessed values ('taxvaluedollarcnt') of Single Family Properties using attributes of the properties.
-
 * Find the key drivers of property value for single family properties.
 * Deliver a report that the data science team can read through and replicate, understand what steps were taken, why and what the outcome was.
 * Make recommendations on what works or doesn't work in predicting these homes' values.
 
 ## Initial hypotheses and/or questions you have of the data, ideas
 There should be some combination of features that can be used to build a predictive model for property values
-* 1. Dose the county of the poperty provide relevant predicting tax value?
-* 2. Does the number of bedrooms provide predictive value for churn? 
-* 3. Does the number of bathrooms provide relevant predictive value tax value?
-* 4. Does the size of the lot provide predictive value for tax value? 
+* 1. Does the county of the poperty provide predictive value for tax value?
+* 2. Is the number of bedrooms predictive of tax value? 
+* 3. Does the size of the lot predictive of tax value? 
+* 4. Does the size of the lot predictive of tax value? 
 *****************************************
 ** Project Plan 
 *** Acquire data from Codeup DB Server
@@ -29,10 +28,10 @@ There should be some combination of features that can be used to build a predict
         ***** address any outliers
 *** Explore data in search of drivers of property tax value
     **** Answer the following initial questions
-        ***** 1. Does the county of the poperty and area of the home provide relevant predicting tax value?
-        ***** 2. Does the number of bedrooms provide predictive value for tax value?
-        ***** 3. Does the number of bathrooms provide relevant predictive value tax value?
-        ***** 4. Does the size of the lot provide predictive value for tax value? 
+        ***** 1. Does the county of the poperty provide predictive value for tax value?
+        ***** 2. Is the number of bedrooms predictive of tax value?
+        ***** 3. Is the size of the lot predictive of tax value? 
+        ***** 4. Does the size of the lot predictive of tax value? 
 *** Develop a model to predict tax value of properties
 *** Draw conclusions
 
@@ -60,8 +59,8 @@ There should be some combination of features that can be used to build a predict
 * * RMSE proved the best metric for evaluating various models created 
 * By combining the features into a series of models I found the Polynomial Regression model was best
 * On the test set the model returned a RMSE of 307698.389898 
-    * failing to meet the baseline 383891.952694   
-* This model should not be used in production
+    * this out performs the baseline RMSE 383891.952694   
+* This model could be used in production, but I belive it could be improved further
 
 # Recomendations
 * Continue developing the model
